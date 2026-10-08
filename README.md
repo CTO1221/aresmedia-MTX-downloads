@@ -2,6 +2,28 @@
 
 Public installer downloads. No GitHub login is required.
 
+## Release channels and retained versions
+
+- [Latest stable](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/latest): the recommended stable release.
+- [All versions](https://github.com/CTO1221/aresmedia-MTX-downloads/releases): previous stable releases and explicitly marked prereleases.
+- Current stable: [v2026.10.08](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/tag/v2026.10.08). Its installer and checksum are retained unchanged.
+
+Every update gets its own version, tag and asset names. New stable releases become
+Latest; older releases keep their version-specific download links. Test versions
+use a suffix such as `-rc.1`, are marked pre-release and do not replace Latest.
+
+Immutable releases are enabled for future publications. Maintainers must upload
+and verify both the installer and checksum in a draft before publishing. Published
+assets must not be replaced, existing version tags must not be moved, and older
+releases must not be deleted. Corrections are published under a new version.
+GitHub applies immutability only to future releases; the existing `v2026.10.08`
+release predates the setting and is preserved unchanged under this retention policy.
+See [GitHub's immutability documentation](https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/establish-provenance-and-integrity/prevent-release-changes).
+
+Retained installers do not provide automatic server rollback. Cross-version
+replacement is currently refused by the installer; preserve compatible backups
+before a separately planned server migration.
+
 ## Ubuntu 22.04 / 26.04 LTS, amd64
 
 - [Installer: 2026.10.08](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08/aresmedia-mtx-2026.10.08-ubuntu-amd64.run)
