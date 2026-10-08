@@ -1,45 +1,62 @@
 # AresMedia-MTX downloads
 
-Public installer downloads. No GitHub login is required.
+Public installer downloads; no GitHub login is required.
 
-## Latest stable: v2026.10.08.2
+## Latest stable: v2026.10.08.3
 
-Ubuntu **22.04 LTS / 26.04 LTS**, **amd64**. Includes the Pusher pipeline identity fix and clean production layout.
+Ubuntu **22.04 LTS / 26.04 LTS**, **amd64**. Includes transactional updates, the Pusher fix and clean production layout.
 
-- [Download installer](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.2/aresmedia-mtx-2026.10.08.2-ubuntu-amd64.run)
-- [SHA-256 checksum](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.2/aresmedia-mtx-2026.10.08.2-ubuntu-amd64.run.sha256)
-- [Release notes](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/tag/v2026.10.08.2)
+- [Download installer](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.3/aresmedia-mtx-2026.10.08.3-ubuntu-amd64.run)
+- [SHA-256 checksum](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.3/aresmedia-mtx-2026.10.08.3-ubuntu-amd64.run.sha256)
+- [Release notes and validation scope](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/tag/v2026.10.08.3)
 - [Latest stable](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/latest) · [All versions](https://github.com/CTO1221/aresmedia-MTX-downloads/releases)
 
-## Install in an SSH terminal
+## Update an existing installation
+
+Run in an SSH terminal:
 
 ```bash
-curl -fLO https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.2/aresmedia-mtx-2026.10.08.2-ubuntu-amd64.run
-curl -fLO https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.2/aresmedia-mtx-2026.10.08.2-ubuntu-amd64.run.sha256
-sha256sum -c aresmedia-mtx-2026.10.08.2-ubuntu-amd64.run.sha256 && sudo bash aresmedia-mtx-2026.10.08.2-ubuntu-amd64.run
+curl -fLO https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.3/aresmedia-mtx-2026.10.08.3-ubuntu-amd64.run && curl -fLO https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.3/aresmedia-mtx-2026.10.08.3-ubuntu-amd64.run.sha256 && sha256sum -c aresmedia-mtx-2026.10.08.3-ubuntu-amd64.run.sha256 && sudo bash aresmedia-mtx-2026.10.08.3-ubuntu-amd64.run --update
 ```
 
-The interactive wizard asks for domain/IP, RTMP, WHIP/WebRTC, HTTPS and first administrator settings.
-MediaMTX is bundled. Internet access is required for Ubuntu/Python dependencies.
-Installs into `/opt/aresmedia-mtx`; runtime helpers are in `libexec/`, policies in `config/`.
-The package excludes development tools, Git history, Markdown, task lists and recordings.
+Updates briefly stop media services; publishers and viewers must reconnect. Application files,
+`.env`, local SQLite state and changed service configuration are backed up under
+`/opt/.aresmedia-update-backups/`. Administrator accounts, settings, TLS and recordings are retained.
+Recordings remain in place and are not duplicated in the backup.
 
-This installer supports fresh installation and repeating the exact same build.
-It refuses cross-version replacement of an existing installation. Retaining an older installer
-does not provide automatic server rollback; keep compatible data/configuration backups for migration.
+The updater migrates old `tools/packaging` layouts to `libexec/config`, checks backend/worker health,
+and automatically restores the previous code/database/configuration on failure. If recovery is
+interrupted, rerun `--update` to finish recovery, then run it again to retry. Repeating the same
+installed version verifies it without restarting services. Keep the printed backup path.
 
-Installer SHA-256: `6ae6584bd234492a1becb5cd41c249c448812d7a351d60b01f8aec7adc93cfe6`.
+Automatic updates require a healthy managed install-pack installation, local SQLite state inside
+`data/`, and unchanged Python dependencies/bundled runtime. Git/DEB installations, external databases,
+custom systemd overrides, dependency changes and downgrades require a separate migration.
+Unknown local code modifications are refused; the reviewed lab-c Pusher hotfix is recognized by checksum.
+
+## Fresh installation
+
+Download and verify the files above, then run without the update flag:
+
+```bash
+sudo bash aresmedia-mtx-2026.10.08.3-ubuntu-amd64.run
+```
+
+The wizard asks for domain/IP, RTMP, WHIP/WebRTC, HTTPS and first administrator settings.
+MediaMTX is bundled; Internet is needed for Ubuntu/Python dependencies. Installation directory:
+`/opt/aresmedia-mtx`. The package excludes Git history, development tools, Markdown and task lists.
+
+Installer SHA-256: `073c2157a18e6705616286e68b9730fd253dc92bf4042d154c195438980b1327`.
 
 ## Retained releases
 
-| Version | Contents | Download |
-| --- | --- | --- |
-| [v2026.10.08.2](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/tag/v2026.10.08.2) | Current stable: Pusher fix, clean production layout | [Installer](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08.2/aresmedia-mtx-2026.10.08.2-ubuntu-amd64.run) |
-| [v2026.10.08](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/tag/v2026.10.08) | Previous stable, original layout | [Installer](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/download/v2026.10.08/aresmedia-mtx-2026.10.08-ubuntu-amd64.run) |
+| Version | Contents |
+| --- | --- |
+| [v2026.10.08.3](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/tag/v2026.10.08.3) | Current stable: transactional updater and Pusher fix |
+| [v2026.10.08.2](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/tag/v2026.10.08.2) | Pusher fix, clean production layout; fresh installer |
+| [v2026.10.08](https://github.com/CTO1221/aresmedia-MTX-downloads/releases/tag/v2026.10.08) | Original installer |
 
-Each update gets a new version, tag and asset names. Older releases keep their version-specific links.
-Test versions use a suffix such as `-rc.1`, are marked pre-release and do not replace Latest stable.
-
-New releases are immutable: upload and verify the installer and checksum in a draft before publishing.
-Published assets must not be replaced, version tags must not be moved and older releases must not be deleted.
-Corrections require a new version. The original v2026.10.08 predates GitHub's immutability setting and is retained unchanged.
+Every update gets a new version/tag and permanent asset names. Earlier releases remain downloadable.
+New releases are immutable: upload and verify all assets in a draft before publication. Corrections
+require a new version. Prereleases such as `-rc.1` do not replace Latest stable. The original
+v2026.10.08 predates immutability and is retained unchanged. Never delete old releases or move their tags.
